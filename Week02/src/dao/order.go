@@ -19,6 +19,7 @@ func (o *OrderDao) OrderList() ([]*models.OrderListItem, error) {
 	for rows.Next() {
 		orderItem := &models.OrderListItem{}
 		if err := rows.Scan(&orderItem.OrderId); err != nil {
+			// ErrNoRows一般出现在这个地方，dao层应该wrap错误，往上抛。
 			return nil, errors.Wrap(err, "[mysql].[scan].[order_info]")
 		}
 		orderList = append(orderList, orderItem)
